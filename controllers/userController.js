@@ -26,9 +26,19 @@ const editUser = async(req, res) => {
         const {id} = req.params;
         const contain = req.body;
         const updateUser = await User.findByIdAndUpdate(id, contain, {new: true});
-        res.json({success: true, message: "Usuario Actualizado", updateUser}) 
+        res.json({success: true, message: "Usuario Actualizado", updateUser}); 
     } catch (error) {
-        res.status(500).json({success: false, message: error.message})
+        res.status(500).json({success: false, message: error.message});
     }
 };
-module.exports = {createUser, getUsers, editUser};
+
+const deleteUser = async(req, res) => {
+    try {
+        const {id} = req.params;
+        const destroyUser = await User.findByIdAndDelete(id);
+        res.json({success: true, message: "Usuario eliminado", destroyUser});
+    } catch (error) {
+        res.status(500).json({success: false, message: error.message});
+    }
+}
+module.exports = {createUser, getUsers, editUser, deleteUser};
