@@ -7,4 +7,7 @@ userRouter.route('/user')
     .post(createUser)
     .get(getUsers)
 
+userRouter.route('/user/:id')
+    .put()
+    .get()
 module.exports = userRouter;
