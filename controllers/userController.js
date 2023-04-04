@@ -11,4 +11,12 @@ const createUser = async (req, res) => {
   }
 };
 
-module.exports = createUser;
+const getUsers = async(req, res) => {
+    try {
+        const users = await User.find();
+        res.json({success: true, info: users})
+    } catch (error) {
+        res.json({ success: false, message: error.message });
+    }
+}
+module.exports = {createUser, getUsers};
