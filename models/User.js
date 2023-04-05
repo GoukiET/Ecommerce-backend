@@ -30,6 +30,14 @@ const userSchema = new mongoose.Schema({
         type: String,
         match: [/^(?=.*\d)(?=.*[a-z])(?=.*[a-zA-Z]).{8,}$/gm],
         required: true
+    }, 
+    isAdmin:{
+        type: Boolean,
+        defaul: false
+    },
+    favoriteProducts:{
+        type: mongoose.Types.ObjectId,
+        ref: ""
     }
 })
 
