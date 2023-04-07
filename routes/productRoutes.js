@@ -1,6 +1,6 @@
 const express = require('exporess');
 
-const {getProducts, createProducts} = require('../controllers/productController');
+const {getProducts, createProduct} = require('../controllers/productController');
 
 const productRouter = express.Router()
 
