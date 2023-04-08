@@ -10,4 +10,8 @@ userRouter.route('/user')
 userRouter.route('/user/:id')
     .put(editUser)
     .delete(deleteUser)
+
+userRouter.route('/user/signin')
+    .post()
+    
 module.exports = userRouter;
