@@ -53,5 +53,32 @@ const deleteUser = async(req, res) => {
     } catch (error) {
         res.status(500).json({success: false, message: error.message});
     }
+};
+
+const login = async(req, res) =>{
+
+    try {
+        const {email, password} = req.body;
+
+        const user = await User.findOne({ email })
+
+        if(!user){
+            throw new Error('Usuario no registrado')
+        }
+
+        const hash = crypto.pbkdf2Sync(password, user.salt, 5000, 10, 'sha512').toString('hex');
+
+        if(user.password !== hash){
+            throw new Error('Email o Contraseña incorrecta')
+        }
+
+        res.json({success: true, message: 'Has iniciado sesion'})
+    } catch (error) {
+        res.status(500).json({success: false, message: error.message})
+    }
+
+
 }
-module.exports = {createUser, getUsers, editUser, deleteUser};
+
+
+module.exports = {createUser, getUsers, editUser, deleteUser, login};
