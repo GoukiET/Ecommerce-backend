@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const crypto = require('crypto');
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -41,6 +42,15 @@ const userSchema = new mongoose.Schema({
         ref: "product"
     }
 })
+
+userSchema.methods.hashPassword = function(password){
+    this.salt = crypto.randomBytes(10).toString('hex');
+    this.password = crypto.pbkdf2Sync(password, this.salt, 5000, 10, 'sha512').toString('hex');
+}
+
+userSchema.methods.hashValidation = function(password, salt, passwordDB){
+    
+}
 
 const User = mongoose.model('user', userSchema);
 
