@@ -9,7 +9,13 @@ const createUser = async (req, res) => {
         throw new Error('Email en uso')
     }
 
-    const newUSer = new User(req.body);
+    //! Hash Password
+    const salt = crypto.randomBytes(10).toString('hex');
+    const hash = crypto.pbkdf2Sync(req.body.password, salt, 5000, 10, 'sha512').toString('hex');
+
+    
+
+    const newUSer = new User({...req.body, password: hash, salt});
     await newUSer.save();
 
     res.json({ success: true, message: "Usuario creado", info: newUSer });
