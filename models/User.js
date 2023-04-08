@@ -37,7 +37,7 @@ const userSchema = new mongoose.Schema({
     },
     favoriteProducts:{
         type: mongoose.Types.ObjectId,
-        ref: ""
+        ref: "product"
     }
 })
 

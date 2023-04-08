@@ -1,7 +1,14 @@
 const User = require("../models/User");
+const crypto = require('crypto');
+
 
 const createUser = async (req, res) => {
   try {
+    const userEmail = await User.findOne({email: req.body.email})
+    if(userEmail){
+        throw new Error('Email en uso')
+    }
+
     const newUSer = new User(req.body);
     await newUSer.save();
 
@@ -13,7 +20,7 @@ const createUser = async (req, res) => {
 
 const getUsers = async(req, res) => {
     try {
-        const users = await User.find();
+        const users = await User.find().populate('favoriteProducts');
         res.json({success: true, info: users})
     } catch (error) {
         res.json({ success: false, message: error.message });
