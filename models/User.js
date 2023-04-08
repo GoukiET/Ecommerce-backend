@@ -49,7 +49,8 @@ userSchema.methods.hashPassword = function(password){
 }
 
 userSchema.methods.hashValidation = function(password, salt, passwordDB){
-    
+    const hash = crypto.pbkdf2Sync(password, salt, 5000, 10, 'sha512').toString('hex');
+    return hash === passwordDB;
 }
 
 const User = mongoose.model('user', userSchema);

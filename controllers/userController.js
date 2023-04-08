@@ -61,9 +61,9 @@ const login = async(req, res) =>{
             throw new Error('Usuario no registrado')
         }
 
-        const hash = crypto.pbkdf2Sync(password, user.salt, 5000, 10, 'sha512').toString('hex');
+        const validatePassword = user.hashValidation(password, user.salt, user.password)
 
-        if(user.password !== hash){
+        if(!validatePassword){
             throw new Error('Email o Contraseña incorrecta')
         }
 
