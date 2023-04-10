@@ -55,4 +55,4 @@ userSchema.methods.hashValidation = function(password, salt, passwordDB){
 
 const User = mongoose.model('user', userSchema);
 
-module.exports = User; //Hola
+module.exports = User; 
