@@ -9,11 +9,11 @@ const createUser = async (req, res) => {
         throw new Error('Email en uso')
     }
 
-    const newUSer = new User(req.body);
-    newUSer.hashPassword(req.body.password);
-    await newUSer.save();
+    const newUser = new User(req.body);
+    newUser.hashPassword(req.body.password);
+    await newUser.save();
 
-    res.json({ success: true, message: "Usuario creado", info: newUSer });
+    res.json({ success: true, message: "Usuario creado", info: newUser._id, token: newUser.generateToken()});
   } catch (error) {
     res.json({ success: false, message: error.message });
   }
@@ -67,7 +67,7 @@ const login = async(req, res) =>{
             throw new Error('Email o Contraseña incorrecta')
         }
 
-        res.json({success: true, message: 'Has iniciado sesion'})
+        res.json({success: true, message: 'Has iniciado sesion', token: user.generateToken()})
     } catch (error) {
         res.status(500).json({success: false, message: error.message})
     }

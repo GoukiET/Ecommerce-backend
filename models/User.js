@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const crypto = require('crypto');
+const jwt = require('jsonwebtoken');
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -54,7 +55,14 @@ userSchema.methods.hashValidation = function(password, salt, passwordDB){
 }
 
 userSchema.methods.generateToken = function(){
-    const token = jwt
+    const payload = {
+        id: this._id,
+        name: this.name,
+        email: this.email
+    }
+
+    const token = jwt.sign(payload, process.env.SECRET, {expiresIn: 900000})
+    return token;
 }
 
 const User = mongoose.model('user', userSchema);
