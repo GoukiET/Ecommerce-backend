@@ -53,6 +53,10 @@ userSchema.methods.hashValidation = function(password, salt, passwordDB){
     return hash === passwordDB;
 }
 
+userSchema.methods.generateToken = function(){
+    const token = jwt
+}
+
 const User = mongoose.model('user', userSchema);
 
 module.exports = User; 
