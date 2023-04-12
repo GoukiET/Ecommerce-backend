@@ -73,7 +73,18 @@ const login = async(req, res) =>{
     }
 
 
+};
+
+const getUserVerify = async() => {
+    try {
+        const {id} = req.auth;
+
+        const user = await User.findById(id).populate('favoriteProducts').select('-password -salt');
+        res.json({success: true, mmessage: `Informacion de: ${user.email}`, info: user});
+    } catch (error) {
+        res.status(500).json({success: false, message: error.message});
+    }
 }
 
 
-module.exports = {createUser, getUsers, editUser, deleteUser, login};
+module.exports = {createUser, getUsers, editUser, deleteUser, login, getUserVerify};
