@@ -8,9 +8,8 @@ userRouter.route('/user')
     .post(createUser)
     .get(getUsers)
 
-userRouter.route('/user/:id')
-    .put(editUser)
-    .delete(deleteUser)
+userRouter.route('/user/delete')
+    .delete(auth, deleteUser)
 
 userRouter.route('/user/signin')
     .post(login)
@@ -18,4 +17,10 @@ userRouter.route('/user/signin')
 
 userRouter.route('/user/verifyUSer')
     .get(auth, getUserVerify)
+
+
+userRouter.route('/user/myProfile')
+    .put(auth, editUser)
+
+
 module.exports = userRouter;

@@ -1,7 +1,7 @@
 const {expressjwt} = require('express-jwt');
 require('dotenv').config();
 
-const getToken = (req, res, next) => {
+const getToken = (req) => {
     const { authorization } = req.headers;
 
     if(authorization){

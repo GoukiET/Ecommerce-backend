@@ -31,9 +31,23 @@ const getUsers = async(req, res) => {
 const editUser = async(req, res) => {
    
     try {
-        const {id} = req.params;
+        /* const {id} = req.body; */
+        const {id} = req.auth; //me da el siguiente error Cannot destructure property 'id' of 'req.auth' as it is undefined
         const contain = req.body;
-        const updateUser = await User.findByIdAndUpdate(id, contain, {new: true});
+
+        /* const emails = await User.find()
+
+        emails.forEach(userEmail => {
+            if(userEmail.email === contain.email){
+                throw new Error('Email en uso')
+            }
+        }) */
+        const userEmail = await User.findOne({email: req.body.email})
+        if(userEmail){
+        throw new Error('Email en uso')
+        }
+
+        const updateUser = await User.findByIdAndUpdate(id, contain, {new: true}).select('-password -salt -isAdmin');
         res.json({success: true, message: "Usuario Actualizado", updateUser}); 
     } catch (error) {
         res.status(500).json({success: false, message: error.message});
@@ -42,7 +56,7 @@ const editUser = async(req, res) => {
 
 const deleteUser = async(req, res) => {
     try {
-        const {id} = req.params;
+        const {id} = req.auth;
         const destroyUser = await User.findByIdAndDelete(id);
         res.json({success: true, message: "Usuario eliminado", destroyUser});
     } catch (error) {
@@ -75,7 +89,7 @@ const login = async(req, res) =>{
 
 };
 
-const getUserVerify = async() => {
+const getUserVerify = async(req, res) => {
     try {
         const {id} = req.auth;
 
@@ -84,7 +98,7 @@ const getUserVerify = async() => {
     } catch (error) {
         res.status(500).json({success: false, message: error.message});
     }
-}
+};
 
 
 module.exports = {createUser, getUsers, editUser, deleteUser, login, getUserVerify};
