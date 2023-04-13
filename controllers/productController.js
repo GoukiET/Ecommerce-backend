@@ -1,4 +1,5 @@
 const Product = require('../models/Product');
+const User = require('../models/User');
 
 const getProducts = async(req, res) => {
     try {
@@ -18,11 +19,16 @@ const getProductById = async(req, res) => {
     } catch (error) {
         
     }
-}
+};
 
 
 const createProduct = async(req, res) => {
     try {
+        const user = await User.findById(req.auth.id);
+        if(!user.isAdmin){ //Si no es admin
+            throw new Error('No tienes acceso')
+        }
+
         const newProduct = new Product(req.body);
         //* Guarda informacion en la base de datos
         await newProduct.save();
@@ -33,4 +39,34 @@ const createProduct = async(req, res) => {
     }
 };
 
-module.exports = {createProduct, getProducts, getProductById}
+
+const editProduct = async(req, res) =>{
+    const {productId} = req.params;
+    try {
+        /* const user = await User.findById(req.auth.id);
+        if(!user.isAdmin){ //Si no es admin
+            throw new Error('No tienes acceso')
+        } */
+        const product = await Product.findByIdAndUpdate(productId, req.body, {new: true});
+
+        res.json({success: true, message: "Producto editado con existo", updateInfo: product})
+    } catch (error) {
+        res.status(500).json({success: false, message: error.message});
+    }
+};
+
+const deleteProduct = async(req, res) => {
+    const {productId} = req.params;
+    try {
+        /* const user = await User.findById(req.auth.id);
+        if(!user.isAdmin){ //Si no es admin
+            throw new Error('No tienes acceso')
+        } */
+        const product = await Product.findByIdAndDelete(productId);
+
+        res.json({success: true, message: "Producto eliminado", deleteProduct: product})
+    } catch (error) {
+        res.status(500).json({success: false, message: error.message});
+    }
+};
+module.exports = {createProduct, getProducts, getProductById, editProduct, deleteProduct}
