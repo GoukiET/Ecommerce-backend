@@ -4,7 +4,7 @@ const {getProducts, createProduct, getProductById, editProduct, deleteProduct} =
 
 const productRouter = express.Router()
 
-productRouter.route('/product')
+productRouter.route('/products')
     .post(auth, createProduct)
     .get(getProducts)
 
