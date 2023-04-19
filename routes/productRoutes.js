@@ -1,6 +1,6 @@
 const express = require('express');
 const auth = require('../middleware/auth');
-const {getProducts, createProduct, getProductById, editProduct, deleteProduct} = require('../controllers/productController');
+const {getProducts, createProduct, getProductById, editProduct, deleteProduct, reduceStock} = require('../controllers/productController');
 
 const productRouter = express.Router()
 
@@ -14,4 +14,7 @@ productRouter.route('/products/:productId')
 productRouter.route('/admin/products/:productId')
     .put(/* auth */ editProduct)
     .delete(/* auth */ deleteProduct)
+
+productRouter.route('/product/reduce-stock')
+    .put(reduceStock)
 module.exports = productRouter;
