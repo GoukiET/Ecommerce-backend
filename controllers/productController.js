@@ -71,7 +71,7 @@ const deleteProduct = async(req, res) => {
 };
 
 
-const reduceStock = async(res, req) => {
+const reduceStock = async(req, res) => {
     const productosComprado = req.body.cartItems;
     try {
         productosComprado.map(async(producto) => {
