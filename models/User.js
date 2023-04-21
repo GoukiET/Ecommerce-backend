@@ -7,14 +7,12 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: "Nombre no ingresado",
         trim: true,
-        lowercase: true,
         minLength: 2
     },
     lastName:{
         type: String,
         default: "Apellido no ingresado",
         trim: true,
-        lowercase: true,
         minLength:2
     },
     email: {
